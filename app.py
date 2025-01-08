@@ -12,20 +12,21 @@ def load_data():
 
 # Judul Aplikasi
 st.title("K-Drama Recommendation")
-st.markdown("Korean drama recomendation for you")
+st.markdown("Korean drama recommendation for you")
 
 # Load dataset
 df = load_data()
 
-# Sidebar untuk filter
-st.sidebar.header("Filter Data")
-selected_genre = st.sidebar.multiselect(
+# Filter berdasarkan genre
+st.subheader("Pilih Genre:")
+selected_genre = st.multiselect(
     "Pilih Genre:",
     options=[genre for genres in df['Genre'] for genre in genres],  # Flatten the list of genres
     default=[genre for genres in df['Genre'] for genre in genres]  # Default: semua genre
 )
 
-selected_rating = st.sidebar.slider(
+# Filter berdasarkan rating
+selected_rating = st.slider(
     "Rating Minimum:",
     min_value=float(df['Rating'].min()),
     max_value=float(df['Rating'].max()),
@@ -39,7 +40,7 @@ filtered_data = df[
 ]
 
 # Input untuk memilih drama Korea
-st.subheader("Pilih Drama Korea")
+st.subheader("Pilih Drama Korea:")
 selected_drama = st.selectbox(
     "Pilih Drama:",
     options=df['Name'].unique()
@@ -55,7 +56,7 @@ st.write(f"**Durasi:** {drama_detail['Duration']}")
 st.write(f"**Sinopsis:** {drama_detail['Synopsis']}")
 
 # Rekomendasi drama berdasarkan genre yang sama
-st.subheader("Rekomendasi Drama Korea")
+st.subheader("Rekomendasi Drama Korea:")
 recommended_drama = df[df['Genre'].apply(lambda genres: any(genre in drama_detail['Genre'] for genre in genres))].sort_values(by='Rating', ascending=False).head(5)
 
 st.write(f"Rekomendasi drama dengan genre {', '.join(drama_detail['Genre'])}:")
