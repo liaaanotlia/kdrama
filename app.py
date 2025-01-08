@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 # Load dataset
-@st.cache
+@st.cache_data
 def load_data():
     df = pd.read_csv("korean_dramas_preprocessed.csv")
     return df
