@@ -6,38 +6,38 @@ import pandas as pd
 def load_data():
     df = pd.read_csv("korean_dramas_preprocessed.csv")
     
-    # Memisahkan genre yang dipisahkan oleh spasi
-    df['Genre'] = df['Genre'].apply(lambda x: x.split())  # Memisahkan genre berdasarkan spasi
+    # Splitting genres separated by space
+    df['Genre'] = df['Genre'].apply(lambda x: x.split())  # Splitting genres based on space
     return df
 
-# Judul Aplikasi
+# App Title
 st.title("K-Drama Recommendation")
-st.markdown("Korean drama recomendation for you")
+st.markdown("Korean drama recommendations for you")
 
 # Load dataset
 df = load_data()
 
-# Pilih drama Korea
+# Select a Korean Drama
 selected_drama = st.selectbox(
-    "Pilih Drama Korea:",
+    "Select a Korean Drama:",
     options=df['Name'].values
 )
 
-# Menampilkan detail drama yang dipilih
+# Display details of selected drama
 drama_detail = df[df['Name'] == selected_drama].iloc[0]
-st.write(f"**Nama Drama:** {drama_detail['Name']}")
+st.write(f"**Drama Name:** {drama_detail['Name']}")
 st.write(f"**Rating:** {drama_detail['Rating']}")
-st.write(f"**Genre:** {', '.join(drama_detail['Genre'])}")
-st.write(f"**Jumlah Episode:** {drama_detail['Number of Episodes']}")
-st.write(f"**Durasi:** {drama_detail['Duration']}")
-st.write(f"**Sinopsis:** {drama_detail['Synopsis']}")
+st.write(f"**Genre(s):** {', '.join(drama_detail['Genre'])}")
+st.write(f"**Number of Episodes:** {drama_detail['Number of Episodes']}")
+st.write(f"**Duration:** {drama_detail['Duration']}")
+st.write(f"**Synopsis:** {drama_detail['Synopsis']}")
 
-# Rekomendasi drama berdasarkan genre yang sama
-st.subheader("Rekomendasi Drama Korea:")
+# Recommend dramas based on similar genres
+st.subheader("Recommended Korean Dramas:")
 recommended_drama = df[df['Genre'].apply(lambda genres: any(genre in drama_detail['Genre'] for genre in genres))].sort_values(by='Rating', ascending=False).head(5)
 
-st.write(f"Rekomendasi drama dengan genre {', '.join(drama_detail['Genre'])}:")
+st.write(f"Recommended dramas with genre(s) {', '.join(drama_detail['Genre'])}:")
 st.dataframe(recommended_drama[['Name', 'Rating', 'Number of Episodes', 'Genre']])
 
 # Footer
-st.markdown("**Dibuat menggunakan Streamlit** © 2025")
+st.markdown("**Created using Streamlit** © 2025")
