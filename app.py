@@ -11,26 +11,6 @@ def load_data():
     df['Genre'] = df['Genre'].apply(lambda x: x.split())  # Memisahkan genre berdasarkan spasi
     return df
 
-# Styling untuk cast dan genre
-st.markdown("""
-    <style>
-        .recommendation-container {
-            display: flex;
-            flex-wrap: wrap;
-        }
-        .recommendation-item {
-            padding: 10px 20px;
-            margin: 5px;
-            background-color: #f0f0f5;
-            border-radius: 15px;
-            font-weight: bold;
-        }
-        .recommendation-item:hover {
-            background-color: #dcdcfb;
-        }
-    </style>
-""", unsafe_allow_html=True)
-
 # Judul Aplikasi
 st.title("K-Drama Recommendation")
 st.markdown("Korean drama recommendation for you")
@@ -48,14 +28,14 @@ selected_drama = st.selectbox(
 drama_detail = df[df['Name'] == selected_drama].iloc[0]
 
 st.write(f"**Name:** {drama_detail['Name']}")
-st.write(f"**Year of Release:** {drama_detail['Year of release']}")
-st.write(f"**Number of Episodes:** {drama_detail['Number of Episodes']}")
-st.write(f"**Duration:** {drama_detail['Duration']}")
-st.write(f"**Content Rating:** {drama_detail['Content Rating']}")
-st.write(f"**Rating:** {drama_detail['Rating']}")
-st.write(f"**Synopsis:** {drama_detail['Synopsis']}")
+st.write(f"**Year of Release:** {drama_detail['Year of release'] if 'Year of release' in drama_detail else 'Data not available'}")
+st.write(f"**Number of Episodes:** {drama_detail['Number of Episodes'] if 'Number of Episodes' in drama_detail else 'Data not available'}")
+st.write(f"**Duration:** {drama_detail['Duration'] if 'Duration' in drama_detail else 'Data not available'}")
+st.write(f"**Content Rating:** {drama_detail['Content Rating'] if 'Content Rating' in drama_detail else 'Data not available'}")
+st.write(f"**Rating:** {drama_detail['Rating'] if 'Rating' in drama_detail else 'Data not available'}")
+st.write(f"**Synopsis:** {drama_detail['Synopsis'] if 'Synopsis' in drama_detail else 'Data not available'}")
 st.write(f"**Genre:** {', '.join(drama_detail['Genre'])}")
-st.write(f"**Cast:** {drama_detail['Cast']}")
+st.write(f"**Cast:** {drama_detail['Cast'] if 'Cast' in drama_detail else 'Data not available'}")
 
 # Rekomendasi drama berdasarkan genre yang sama
 st.subheader("Recommended K-Dramas based on Genre:")
@@ -66,15 +46,10 @@ st.dataframe(recommended_drama_by_genre[['Name', 'Rating', 'Number of Episodes',
 
 # Rekomendasi drama berdasarkan cast yang sama
 st.subheader("Recommended K-Dramas based on Cast:")
-
-# Menampilkan rekomendasi cast dalam bentuk yang lebih menarik
 recommended_drama_by_cast = df[df['Cast'].apply(lambda cast: any(actor in drama_detail['Cast'] for actor in cast.split(', ')))].sort_values(by='Rating', ascending=False).head(5)
 
-# Menampilkan rekomendasi dengan tampilan rounded
-st.markdown(f'<div class="recommendation-container">', unsafe_allow_html=True)
-for index, row in recommended_drama_by_cast.iterrows():
-    st.markdown(f'<div class="recommendation-item">{row["Name"]} - Rating: {row["Rating"]}</div>', unsafe_allow_html=True)
-st.markdown(f'</div>', unsafe_allow_html=True)
+st.write(f"Recommendations based on cast: {', '.join(drama_detail['Cast'].split(', '))}:")
+st.dataframe(recommended_drama_by_cast[['Name', 'Rating', 'Number of Episodes', 'Cast']])
 
 # Footer
 st.markdown("**Created with Streamlit** © 2025")
