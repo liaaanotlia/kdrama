@@ -41,7 +41,7 @@ else:
     # Handle potential missing values gracefully
     st.write(f"**Drama Name:** {drama_detail['Name']}")
     st.write(f"**Aired Date:** {drama_detail.get('Aired Date', 'N/A')}")
-    st.write(f"**Year of Release:** {drama_detail.get('Year of Release', 'N/A')}")
+    st.write(f"**Year of Release:** {drama_detail.get('Year of release', 'N/A')}")
     st.write(f"**Original Network:** {drama_detail.get('Original Network', 'N/A')}")
     st.write(f"**Aired On:** {drama_detail.get('Aired On', 'N/A')}")
     st.write(f"**Number of Episodes:** {drama_detail.get('Number of Episodes', 'N/A')}")
