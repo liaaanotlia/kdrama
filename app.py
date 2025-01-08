@@ -12,16 +12,16 @@ def load_data():
 
 # Judul Aplikasi
 st.title("K-Drama Recommendation")
-st.markdown("Korean drama recommendation for you")
+st.markdown("Korean drama recomendation for you")
 
 # Load dataset
 df = load_data()
 
-# Input untuk memilih drama Korea dengan expander
-with st.expander("Pilih Drama Korea:"):
+# Membuat expander untuk memilih drama Korea
+with st.expander("Tap to Select a Drama"):
     selected_drama = st.selectbox(
-        "Pilih Drama:",
-        options=df['Name'].unique()
+        "",
+        options=df['Name'].values
     )
 
     # Menampilkan detail drama yang dipilih
