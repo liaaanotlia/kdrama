@@ -25,12 +25,23 @@ selected_drama = st.selectbox(
 
 # Display details of selected drama
 drama_detail = df[df['Name'] == selected_drama].iloc[0]
+
 st.write(f"**Drama Name:** {drama_detail['Name']}")
-st.write(f"**Rating:** {drama_detail['Rating']}")
-st.write(f"**Genre(s):** {', '.join(drama_detail['Genre'])}")
+st.write(f"**Aired Date:** {drama_detail['Aired Date']}")
+st.write(f"**Year of Release:** {drama_detail['Year of Release']}")
+st.write(f"**Original Network:** {drama_detail['Original Network']}")
+st.write(f"**Aired On:** {drama_detail['Aired On']}")
 st.write(f"**Number of Episodes:** {drama_detail['Number of Episodes']}")
 st.write(f"**Duration:** {drama_detail['Duration']}")
+st.write(f"**Content Rating:** {drama_detail['Content Rating']}")
+st.write(f"**Rating:** {drama_detail['Rating']}")
 st.write(f"**Synopsis:** {drama_detail['Synopsis']}")
+st.write(f"**Genre(s):** {', '.join(drama_detail['Genre'])}")
+st.write(f"**Tags:** {drama_detail['Tags']}")
+st.write(f"**Director:** {drama_detail['Director']}")
+st.write(f"**Screenwriter:** {drama_detail['Screenwriter']}")
+st.write(f"**Cast:** {drama_detail['Cast']}")
+st.write(f"**Production Companies:** {drama_detail['Production companies']}")
 
 # Recommend dramas based on similar genres
 st.subheader("Recommended Korean Dramas:")
