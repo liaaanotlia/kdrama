@@ -17,10 +17,11 @@ st.markdown("Korean drama recomendation for you")
 # Load dataset
 df = load_data()
 
-# Membuat expander untuk memilih drama Korea
-with st.expander("Tap to Select a Drama"):
+# Button untuk memilih drama Korea
+if st.button("Pilih Drama Korea"):
+    # Menampilkan pilihan drama
     selected_drama = st.selectbox(
-        "",
+        "Pilih Drama Korea:",
         options=df['Name'].values
     )
 
