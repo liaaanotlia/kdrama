@@ -14,21 +14,6 @@ st.markdown("Dashboard ini menampilkan informasi dan statistik K-Drama berdasark
 # Load dataset
 df = load_data()
 
-# Sidebar untuk filter
-st.sidebar.header("Filter Data")
-selected_genre = st.sidebar.multiselect(
-    "Pilih Genre:",
-    options=df['Genre'].unique(),
-    default=df['Genre'].unique()
-)
-
-selected_rating = st.sidebar.slider(
-    "Rating Minimum:",
-    min_value=float(df['Rating'].min()),
-    max_value=float(df['Rating'].max()),
-    value=(df['Rating'].min())
-)
-
 # Filter data berdasarkan input pengguna
 filtered_data = df[
     (df['Genre'].isin(selected_genre)) & 
