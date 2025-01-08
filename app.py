@@ -28,21 +28,13 @@ selected_drama = st.selectbox(
 drama_detail = df[df['Name'] == selected_drama].iloc[0]
 
 st.write(f"**Name:** {drama_detail['Name']}")
-st.write(f"**Aired Date:** {drama_detail['Aired Date'] if 'Aired Date' in drama_detail else 'Data not available'}")
 st.write(f"**Year of Release:** {drama_detail['Year of release'] if 'Year of release' in drama_detail else 'Data not available'}")
-st.write(f"**Original Network:** {drama_detail['Original Network'] if 'Original Network' in drama_detail else 'Data not available'}")
-st.write(f"**Aired On:** {drama_detail['Aired On'] if 'Aired On' in drama_detail else 'Data not available'}")
 st.write(f"**Number of Episodes:** {drama_detail['Number of Episodes'] if 'Number of Episodes' in drama_detail else 'Data not available'}")
 st.write(f"**Duration:** {drama_detail['Duration'] if 'Duration' in drama_detail else 'Data not available'}")
 st.write(f"**Content Rating:** {drama_detail['Content Rating'] if 'Content Rating' in drama_detail else 'Data not available'}")
 st.write(f"**Rating:** {drama_detail['Rating'] if 'Rating' in drama_detail else 'Data not available'}")
 st.write(f"**Synopsis:** {drama_detail['Synopsis'] if 'Synopsis' in drama_detail else 'Data not available'}")
 st.write(f"**Genre:** {', '.join(drama_detail['Genre'])}")
-st.write(f"**Tags:** {drama_detail['Tags'] if 'Tags' in drama_detail else 'Data not available'}")
-st.write(f"**Director:** {drama_detail['Director'] if 'Director' in drama_detail else 'Data not available'}")
-st.write(f"**Screenwriter:** {drama_detail['Screenwriter'] if 'Screenwriter' in drama_detail else 'Data not available'}")
-st.write(f"**Cast:** {drama_detail['Cast'] if 'Cast' in drama_detail else 'Data not available'}")
-st.write(f"**Production Companies:** {drama_detail['Production companies'] if 'Production companies' in drama_detail else 'Data not available'}")
 
 # Rekomendasi drama berdasarkan genre yang sama
 st.subheader("Recommended K-Dramas:")
