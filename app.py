@@ -21,7 +21,7 @@ st.markdown("Korean drama recommendations for you")
 df = load_data()
 
 # Check if the columns exist
-required_columns = ['Name', 'Aired Date', 'Year of Release', 'Original Network', 'Aired On', 
+required_columns = ['Name', 'Aired Date', 'Year of release', 'Original Network', 'Aired On', 
                     'Number of Episodes', 'Duration', 'Content Rating', 'Rating', 'Synopsis', 
                     'Genre', 'Tags', 'Director', 'Screenwriter', 'Cast', 'Production companies']
 
