@@ -35,6 +35,29 @@ filtered_data = df[
     (df['Rating'] >= selected_rating)
 ]
 
+# Input untuk memilih drama Korea
+st.subheader("Pilih Drama Korea")
+selected_drama = st.selectbox(
+    "Pilih Drama:",
+    options=df['Name'].unique()
+)
+
+# Menampilkan detail drama yang dipilih
+drama_detail = df[df['Name'] == selected_drama].iloc[0]
+st.write(f"**Nama Drama:** {drama_detail['Name']}")
+st.write(f"**Rating:** {drama_detail['Rating']}")
+st.write(f"**Genre:** {drama_detail['Genre']}")
+st.write(f"**Jumlah Episode:** {drama_detail['Number of Episodes']}")
+st.write(f"**Durasi:** {drama_detail['Duration']}")
+st.write(f"**Sinopsis:** {drama_detail['Synopsis']}")
+
+# Rekomendasi drama berdasarkan genre yang sama
+st.subheader("Rekomendasi Drama Korea")
+recommended_drama = df[df['Genre'] == drama_detail['Genre']].sort_values(by='Rating', ascending=False).head(5)
+
+st.write(f"Rekomendasi drama dengan genre {drama_detail['Genre']}:")
+st.dataframe(recommended_drama[['Name', 'Rating', 'Number of Episodes', 'Genre']])
+
 # Tampilkan dataset yang difilter
 st.subheader("Dataset Filtered")
 st.write(f"Jumlah drama yang sesuai filter: {len(filtered_data)}")
