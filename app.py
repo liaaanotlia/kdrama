@@ -38,11 +38,18 @@ st.write(f"**Genre:** {', '.join(drama_detail['Genre'])}")
 st.write(f"**Cast:** {drama_detail['Cast'] if 'Cast' in drama_detail else 'Data not available'}")
 
 # Rekomendasi drama berdasarkan genre yang sama
-st.subheader("Recommended K-Dramas:")
-recommended_drama = df[df['Genre'].apply(lambda genres: any(genre in drama_detail['Genre'] for genre in genres))].sort_values(by='Rating', ascending=False).head(5)
+st.subheader("Recommended K-Dramas based on Genre:")
+recommended_drama_by_genre = df[df['Genre'].apply(lambda genres: any(genre in drama_detail['Genre'] for genre in genres))].sort_values(by='Rating', ascending=False).head(5)
 
 st.write(f"Recommendations based on genres: {', '.join(drama_detail['Genre'])}:")
-st.dataframe(recommended_drama[['Name', 'Rating', 'Number of Episodes', 'Genre']])
+st.dataframe(recommended_drama_by_genre[['Name', 'Rating', 'Number of Episodes', 'Genre']])
+
+# Rekomendasi drama berdasarkan cast yang sama
+st.subheader("Recommended K-Dramas based on Cast:")
+recommended_drama_by_cast = df[df['Cast'].apply(lambda cast: any(actor in drama_detail['Cast'] for actor in cast.split(', ')))].sort_values(by='Rating', ascending=False).head(5)
+
+st.write(f"Recommendations based on cast: {', '.join(drama_detail['Cast'].split(', '))}:")
+st.dataframe(recommended_drama_by_cast[['Name', 'Rating', 'Number of Episodes', 'Genre']])
 
 # Footer
 st.markdown("**Created with Streamlit** © 2025")
