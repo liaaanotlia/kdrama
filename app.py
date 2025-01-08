@@ -11,8 +11,8 @@ def load_data():
     return df
 
 # Judul Aplikasi
-st.title("K-Drama Dashboard")
-st.markdown("Dashboard ini menampilkan informasi dan statistik K-Drama berdasarkan dataset hasil preprocessing.")
+st.title("K-Drama Recommendation")
+st.markdown("Korean drama recomendation for you")
 
 # Load dataset
 df = load_data()
