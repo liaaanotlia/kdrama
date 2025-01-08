@@ -61,15 +61,5 @@ recommended_drama = df[df['Genre'].apply(lambda genres: any(genre in drama_detai
 st.write(f"Rekomendasi drama dengan genre {', '.join(drama_detail['Genre'])}:")
 st.dataframe(recommended_drama[['Name', 'Rating', 'Number of Episodes', 'Genre']])
 
-# Tampilkan dataset yang difilter
-st.subheader("Dataset Filtered")
-st.write(f"Jumlah drama yang sesuai filter: {len(filtered_data)}")
-st.dataframe(filtered_data)
-
-# Menampilkan detail data
-st.subheader("Detail Data")
-if st.checkbox("Tampilkan semua data K-Drama"):
-    st.write(df)
-
 # Footer
 st.markdown("**Dibuat menggunakan Streamlit** © 2025")
