@@ -58,23 +58,5 @@ recommended_drama = df[df['Genre'] == drama_detail['Genre']].sort_values(by='Rat
 st.write(f"Rekomendasi drama dengan genre {drama_detail['Genre']}:")
 st.dataframe(recommended_drama[['Name', 'Rating', 'Number of Episodes', 'Genre']])
 
-# Tampilkan dataset yang difilter
-st.subheader("Dataset Filtered")
-st.write(f"Jumlah drama yang sesuai filter: {len(filtered_data)}")
-st.dataframe(filtered_data)
-
-# Statistik Rating
-st.subheader("Statistik Rating")
-st.bar_chart(df['Rating'].value_counts().sort_index())
-
-# Statistik Jumlah Episode
-st.subheader("Statistik Jumlah Episode")
-st.bar_chart(df['Number of Episodes'].value_counts().sort_index())
-
-# Menampilkan detail data
-st.subheader("Detail Data")
-if st.checkbox("Tampilkan semua data K-Drama"):
-    st.write(df)
-
 # Footer
 st.markdown("**Dibuat menggunakan Streamlit** © 2025")
