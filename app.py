@@ -18,8 +18,8 @@ st.markdown("Korean drama recomendation for you")
 df = load_data()
 
 # Button untuk memilih drama Korea
-if st.button("Pilih Drama Korea"):
-    # Menampilkan pilihan drama
+if st.button("Tampilkan Rekomendasi Drama Korea"):
+    # Pilih drama setelah tombol ditekan
     selected_drama = st.selectbox(
         "Pilih Drama Korea:",
         options=df['Name'].values
