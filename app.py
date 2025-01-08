@@ -59,19 +59,19 @@ df = df[df['Name'] != selected_drama]
 st.subheader("Recommended K-Dramas based on Genre:")
 recommended_drama_by_genre = df[df['Genre'].apply(lambda genres: any(genre in drama_detail['Genre'] for genre in genres))].sort_values(by='genre_similarity', ascending=False).head(5)
 st.write(f"Recommendations based on genres: {', '.join(drama_detail['Genre'])}:")
-st.dataframe(recommended_drama_by_genre[['Name', 'Rating', 'Number of Episodes', 'Genre']])
+st.dataframe(recommended_drama_by_genre[['Name', 'Rating', 'Number of Episodes', 'Genre', 'genre_similarity']])
 
 # Rekomendasi berdasarkan cast yang sama
 st.subheader("Recommended K-Dramas based on Cast:")
 recommended_drama_by_cast = df[df['Cast'].apply(lambda cast: any(actor in drama_detail['Cast'] for actor in cast.split(', ')))].sort_values(by='cast_similarity', ascending=False).head(5)
 st.write(f"Recommendations based on cast: {', '.join(drama_detail['Cast'].split(', '))}:")
-st.dataframe(recommended_drama_by_cast[['Name', 'Rating', 'Number of Episodes', 'Cast']])
+st.dataframe(recommended_drama_by_cast[['Name', 'Rating', 'Number of Episodes', 'Cast', 'cast_similarity']])
 
 # Rekomendasi berdasarkan genre dan cast yang sama
 st.subheader("Recommended K-Dramas based on Genre and Cast:")
 recommended_drama_by_genre_and_cast = df.sort_values(by='total_similarity', ascending=False).head(5)
 st.write(f"Recommendations based on genres: {', '.join(drama_detail['Genre'])} and cast: {', '.join(drama_detail['Cast'].split(', '))}:")
-st.dataframe(recommended_drama_by_genre_and_cast[['Name', 'Rating', 'Number of Episodes', 'Genre', 'Cast']])
+st.dataframe(recommended_drama_by_genre_and_cast[['Name', 'Rating', 'Number of Episodes', 'Genre', 'Cast', 'total_similarity']])
 
 # Footer
 st.markdown("**Created with Streamlit** © 2025")
