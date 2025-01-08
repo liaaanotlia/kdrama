@@ -66,14 +66,6 @@ st.subheader("Dataset Filtered")
 st.write(f"Jumlah drama yang sesuai filter: {len(filtered_data)}")
 st.dataframe(filtered_data)
 
-# Statistik Rating
-st.subheader("Statistik Rating")
-st.bar_chart(df['Rating'].value_counts().sort_index())
-
-# Statistik Jumlah Episode
-st.subheader("Statistik Jumlah Episode")
-st.bar_chart(df['Number of Episodes'].value_counts().sort_index())
-
 # Menampilkan detail data
 st.subheader("Detail Data")
 if st.checkbox("Tampilkan semua data K-Drama"):
