@@ -1,7 +1,5 @@
 import streamlit as st
 import pandas as pd
-from sklearn.neighbors import NearestNeighbors
-import numpy as np
 
 # Load dataset
 @st.cache_data
@@ -29,41 +27,51 @@ selected_drama = st.selectbox(
 # Menampilkan detail drama yang dipilih
 drama_detail = df[df['Name'] == selected_drama].iloc[0]
 
-st.write(f"**Name:** {drama_detail['Name']}")
-st.write(f"**Year of Release:** {drama_detail['Year of release'] if 'Year of release' in drama_detail else 'Data not available'}")
-st.write(f"**Number of Episodes:** {drama_detail['Number of Episodes'] if 'Number of Episodes' in drama_detail else 'Data not available'}")
-st.write(f"**Duration:** {drama_detail['Duration'] if 'Duration' in drama_detail else 'Data not available'}")
-st.write(f"**Content Rating:** {drama_detail['Content Rating'] if 'Content Rating' in drama_detail else 'Data not available'}")
-st.write(f"**Rating:** {drama_detail['Rating'] if 'Rating' in drama_detail else 'Data not available'}")
-st.write(f"**Synopsis:** {drama_detail['Synopsis'] if 'Synopsis' in drama_detail else 'Data not available'}")
-st.write(f"**Genre:** {', '.join(drama_detail['Genre'])}")
-st.write(f"**Cast:** {drama_detail['Cast'] if 'Cast' in drama_detail else 'Data not available'}")
+st.write(f"*Name:* {drama_detail['Name']}")
+st.write(f"*Year of Release:* {drama_detail['Year of release'] if 'Year of release' in drama_detail else 'Data not available'}")
+st.write(f"*Number of Episodes:* {drama_detail['Number of Episodes'] if 'Number of Episodes' in drama_detail else 'Data not available'}")
+st.write(f"*Duration:* {drama_detail['Duration'] if 'Duration' in drama_detail else 'Data not available'}")
+st.write(f"*Content Rating:* {drama_detail['Content Rating'] if 'Content Rating' in drama_detail else 'Data not available'}")
+st.write(f"*Rating:* {drama_detail['Rating'] if 'Rating' in drama_detail else 'Data not available'}")
+st.write(f"*Synopsis:* {drama_detail['Synopsis'] if 'Synopsis' in drama_detail else 'Data not available'}")
+st.write(f"*Genre:* {', '.join(drama_detail['Genre'])}")
+st.write(f"*Cast:* {drama_detail['Cast'] if 'Cast' in drama_detail else 'Data not available'}")
 
-# Menghitung fitur untuk KNN (genre dan cast)
-def get_features(drama):
-    # Menggunakan genre dan cast sebagai fitur numerik
-    genre_features = [1 if genre in drama_detail['Genre'] else 0 for genre in df['Genre'].explode().unique()]
-    cast_features = [1 if actor in drama_detail['Cast'].split(', ') else 0 for actor in df['Cast'].str.split(', ').explode().unique()]
-    return np.array(genre_features + cast_features)
+# Fungsi untuk menghitung jumlah kesamaan genre
+def count_genre_similarity(drama):
+    return len(set(drama_detail['Genre']).intersection(set(drama['Genre'])))
 
-# Menyiapkan data fitur untuk KNN
-all_drama_features = np.array([get_features(drama) for _, drama in df.iterrows()])
+# Fungsi untuk menghitung jumlah kesamaan cast
+def count_cast_similarity(drama):
+    return len(set(drama_detail['Cast'].split(', ')).intersection(set(drama['Cast'].split(', '))))
 
-# Membangun model KNN
-knn = NearestNeighbors(n_neighbors=6, metric='cosine')  # Menggunakan cosine similarity
-knn.fit(all_drama_features)
+# Menambahkan kolom untuk jumlah kesamaan genre dan cast
+df['genre_similarity'] = df.apply(count_genre_similarity, axis=1)
+df['cast_similarity'] = df.apply(count_cast_similarity, axis=1)
 
-# Mencari rekomendasi berdasarkan drama yang dipilih
-drama_features = get_features(drama_detail)
-distances, indices = knn.kneighbors([drama_features])
+# Menambahkan kolom untuk total kesamaan (genre + cast)
+df['total_similarity'] = df['genre_similarity'] + df['cast_similarity']
 
-# Menampilkan rekomendasi
-st.subheader("Recommended K-Dramas:")
-recommended_indices = indices[0][1:]  # Menghindari diri sendiri (indeks 0)
-recommended_drama = df.iloc[recommended_indices]
+# Menyaring drama yang bukan drama yang dipilih
+df = df[df['Name'] != selected_drama]
 
-st.write("Here are the top 5 recommendations based on your selected drama:")
-st.dataframe(recommended_drama[['Name', 'Rating', 'Number of Episodes', 'Genre', 'Cast']])
+# Rekomendasi berdasarkan genre yang sama
+st.subheader("Recommended K-Dramas based on Genre:")
+recommended_drama_by_genre = df[df['Genre'].apply(lambda genres: any(genre in drama_detail['Genre'] for genre in genres))].sort_values(by='genre_similarity', ascending=False).head(5)
+st.write(f"Recommendations based on genres: {', '.join(drama_detail['Genre'])}:")
+st.dataframe(recommended_drama_by_genre[['Name', 'Rating', 'Number of Episodes', 'Genre']])
+
+# Rekomendasi berdasarkan cast yang sama
+st.subheader("Recommended K-Dramas based on Cast:")
+recommended_drama_by_cast = df[df['Cast'].apply(lambda cast: any(actor in drama_detail['Cast'] for actor in cast.split(', ')))].sort_values(by='cast_similarity', ascending=False).head(5)
+st.write(f"Recommendations based on cast: {', '.join(drama_detail['Cast'].split(', '))}:")
+st.dataframe(recommended_drama_by_cast[['Name', 'Rating', 'Number of Episodes', 'Cast']])
+
+# Rekomendasi berdasarkan genre dan cast yang sama
+st.subheader("Recommended K-Dramas based on Genre and Cast:")
+recommended_drama_by_genre_and_cast = df.sort_values(by='total_similarity', ascending=False).head(5)
+st.write(f"Recommendations based on genres: {', '.join(drama_detail['Genre'])} and cast: {', '.join(drama_detail['Cast'].split(', '))}:")
+st.dataframe(recommended_drama_by_genre_and_cast[['Name', 'Rating', 'Number of Episodes', 'Genre', 'Cast']])
 
 # Footer
-st.markdown("**Created with Streamlit** © 2025")
+st.markdown("*Created with Streamlit* © 2025")
